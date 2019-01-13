@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "tagON";
-    private String weatherText;
     private String messageText;
 
     @Override
@@ -26,7 +25,12 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         final TextView temperValue = findViewById(R.id.temperValue);
-        final TextView weatherValue = findViewById(R.id.weatherValue);
+        final TextView wetness = findViewById(R.id.text_wetness_content_main);
+        final TextView windSpeed = findViewById(R.id.text_wind_speed_content_main);
+        final TextView airPressure = findViewById(R.id.text_air_pressure_content_main);
+        final TextView textCity = findViewById(R.id.text_city_content_main);
+
+        textCity.setText(Settings.instance().getCity());
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -44,62 +48,53 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getWeather(temperValue, weatherValue);
+                getWeather(temperValue, wetness, windSpeed, airPressure);
             }
         });
-        getWeather(temperValue, weatherValue);
+        getWeather(temperValue, wetness, windSpeed, airPressure);
     }
 
-    private void getWeather(TextView temperValue, TextView weatherValue) {
+    private void getWeather(TextView temperValue,
+                            TextView wetness, TextView windSpeed, TextView airPressure) {
         int temperature = (int) (Math.random() * 30);
-        int weatherRnd = (int) (Math.random() * 7);
-        String temperText = ((Math.random() > 0.5) ? "" : "-") + temperature;
+        String temperText = ((Math.random() > 0.5) ? "" : "-") + temperature + " \u00B0C";
         temperValue.setText(temperText);
-        switch (weatherRnd) {
-            case 1:
-                weatherText = "Ясно";
-                break;
-            case 2:
-                weatherText = "Пасмурно";
-                break;
-            case 3:
-                weatherText = "Дождь";
-                break;
-            case 4:
-                weatherText = "Ветер";
-                break;
-            case 5:
-                weatherText = "Ураган";
-                break;
-            case 6:
-                weatherText = "Снег";
-                break;
-            case 7:
-                weatherText = "Апокалипсис";
-                break;
+
+        wetness.setVisibility(View.INVISIBLE);
+        windSpeed.setVisibility(View.INVISIBLE);
+        airPressure.setVisibility(View.INVISIBLE);
+
+        if (Settings.instance().getAirPressure()) {
+            airPressure.setVisibility(View.VISIBLE);
+            String airPressureText = "Давление воздуха: " + ((int) (Math.random() * 1000)) + " мм рт. с.";
+            airPressure.setText(airPressureText);
         }
-        weatherValue.setText(weatherText);
+
+        if (Settings.instance().getWetness()) {
+            wetness.setVisibility(View.VISIBLE);
+            String wetnessText = "Влажность: " + ((int) (Math.random() * 100)) + " %";
+            wetness.setText(wetnessText);
+        }
+
+        if (Settings.instance().getWindSpeed()) {
+            windSpeed.setVisibility(View.VISIBLE);
+            String windSpeedText = "Скорость ветра: " + ((int) (Math.random() * 20)) + " м/с";
+            windSpeed.setText(windSpeedText);
+        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
