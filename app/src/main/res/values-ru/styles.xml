@@ -8,13 +8,6 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="AppThemeChanged" parent="Theme.AppCompat.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimaryChanged</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDarkChanged</item>
-        <item name="colorAccent">@color/colorAccentChanged</item>
-        <item name="android:colorBackground">@color/colorBackground</item>
-    </style>
-
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

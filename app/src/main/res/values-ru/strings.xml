@@ -1,0 +1,10 @@
+<resources>
+    <string name="action_settings">Настройки</string>
+    <string name="buttonRefresh">Обновить</string>
+    <string name="textview">Температура</string>
+    <string name="title">Погода в городе</string>
+    <string name="wetness">Влажность</string>
+    <string name="wind_speed">Скорость ветра</string>
+    <string name="air_pressure">Давление</string>
+    <string name="get_weather">Получить</string>
+</resources>
