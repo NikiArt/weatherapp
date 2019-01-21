@@ -1,30 +1,25 @@
 package ru.test.weatherapp
 
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageButton
+import android.widget.TextView
 
-import com.google.android.gms.plus.PlusOneButton
 
-/**
- * A fragment with a Google +1 button.
- * Activities that contain this fragment must implement the
- * [ContentFragment.OnFragmentInteractionListener] interface
- * to handle interaction events.
- * Use the [ContentFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ContentFragment : Fragment() {
-    // The URL to +1.  Must be a valid URL.
-    private val PLUS_ONE_URL = "http://developer.android.com"
-    // TODO: Rename and change types of parameters
-    private var mParam1: String? = null
-    private var mParam2: String? = null
-    private var mPlusOneButton: PlusOneButton? = null
+
+    private lateinit var mParam1: String
+    private lateinit var mParam2: String
+    lateinit var cityName: TextView
+    lateinit var airPressure: TextView
+    lateinit var wetness: TextView
+    lateinit var windSpeed: TextView
+    lateinit var temperValue: TextView
 
     private var mListener: OnFragmentInteractionListener? = null
 
@@ -38,26 +33,37 @@ class ContentFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_content, container, false)
+        val inflatedView = inflater.inflate(R.layout.fragment_content, container, false)
+        val buttonFromFragment = inflatedView.findViewById<Button>(R.id.fragment_content_button)
+        val backButtonFromFragment = inflatedView.findViewById<ImageButton>(R.id.fragment_content_button_return)
+        cityName = inflatedView.findViewById(R.id.fragment_content_text_city)
+        airPressure = inflatedView.findViewById(R.id.fragment_content_text_air_pressure)
+        wetness = inflatedView.findViewById(R.id.fragment_content_text_wetness)
+        windSpeed = inflatedView.findViewById(R.id.fragment_content_text_wind_speed)
+        temperValue = inflatedView.findViewById(R.id.fragment_content_temperValue)
 
-        /*//Find the +1 button
-        mPlusOneButton = view.findViewById<View>(R.id.plus_one_button) as PlusOneButton*/
+        cityName.text = Settings.instance().city
+        getWeather()
 
-        return view
+        buttonFromFragment.setOnClickListener {
+            getWeather()
+        }
+
+        backButtonFromFragment.setOnClickListener {
+            mListener?.onFragmentInteraction(2)
+        }
+
+        return inflatedView
     }
 
     override fun onResume() {
         super.onResume()
-
-        // Refresh the state of the +1 button each time the activity receives focus.
-        /*mPlusOneButton!!.initialize(PLUS_ONE_URL, PLUS_ONE_REQUEST_CODE)*/
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    fun onButtonPressed(uri: Uri) {
+
+    fun onButtonPressed() {
         if (mListener != null) {
-            mListener!!.onFragmentInteraction(uri)
+            mListener!!.onFragmentInteraction(2)
         }
     }
 
@@ -75,37 +81,17 @@ class ContentFragment : Fragment() {
         mListener = null
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     *
-     *
-     * See the Android Training lesson [Communicating with Other Fragments](http://developer.android.com/training/basics/fragments/communicating.html) for more information.
-     */
+
     interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        fun onFragmentInteraction(uri: Uri)
+        fun onFragmentInteraction(currentFragment: Int)
     }
 
     companion object {
-        // TODO: Rename parameter arguments, choose names that match
-        // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
         private val ARG_PARAM1 = "param1"
         private val ARG_PARAM2 = "param2"
         // The request code must be 0 or greater.
         private val PLUS_ONE_REQUEST_CODE = 0
 
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ContentFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         fun newInstance(param1: String, param2: String): ContentFragment {
             val fragment = ContentFragment()
             val args = Bundle()
@@ -116,4 +102,32 @@ class ContentFragment : Fragment() {
         }
     }
 
-}// Required empty public constructor
+    private fun getWeather() {
+        val temperature = (Math.random() * 30).toInt()
+        val temperText = (if (Math.random() > 0.5) "" else "-") + temperature + " \u00B0C"
+        temperValue.text = temperText
+
+        wetness.visibility = View.INVISIBLE
+        windSpeed.visibility = View.INVISIBLE
+        airPressure.visibility = View.INVISIBLE
+
+        if (Settings.instance().airPressure) {
+            airPressure.visibility = View.VISIBLE
+            val airPressureText = "Давление воздуха: " + (Math.random() * 1000).toInt() + " мм рт. с."
+            airPressure.text = airPressureText
+        }
+
+        if (Settings.instance().wetness) {
+            wetness.visibility = View.VISIBLE
+            val wetnessText = "Влажность: " + (Math.random() * 100).toInt() + " %"
+            wetness.text = wetnessText
+        }
+
+        if (Settings.instance().windSpeed) {
+            windSpeed.visibility = View.VISIBLE
+            val windSpeedText = "Скорость ветра: " + (Math.random() * 20).toInt() + " м/с"
+            windSpeed.text = windSpeedText
+        }
+    }
+
+}

@@ -7,7 +7,7 @@
     tools:context=".SettingsFragment">
 
     <EditText
-        android:id="@+id/text_city_activity_start"
+        android:id="@+id/fragment_settings_text_city"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -21,43 +21,42 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Switch
-        android:id="@+id/switch_wetness_activity_start"
+        android:id="@+id/fragment_settings_switch_wetness"
         android:layout_width="160dp"
         android:layout_height="30dp"
         android:layout_marginStart="60dp"
         android:layout_marginTop="20dp"
         android:text="@string/wetness"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_city_activity_start" />
+        app:layout_constraintTop_toBottomOf="@+id/fragment_settings_text_city" />
 
     <Switch
-        android:id="@+id/switch_wind_speed_activity_start"
+        android:id="@+id/fragment_settings_switch_wind_speed"
         android:layout_width="160dp"
         android:layout_height="30dp"
         android:layout_marginStart="60dp"
         android:layout_marginTop="20dp"
         android:text="@string/wind_speed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switch_wetness_activity_start" />
+        app:layout_constraintTop_toBottomOf="@+id/fragment_settings_switch_wetness" />
 
     <Switch
-        android:id="@+id/switch_air_pressure_activity_start"
+        android:id="@+id/fragment_settings_switch_air_pressure"
         android:layout_width="160dp"
         android:layout_height="30dp"
         android:layout_marginStart="60dp"
         android:layout_marginTop="20dp"
         android:text="@string/air_pressure"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switch_wind_speed_activity_start" />
+        app:layout_constraintTop_toBottomOf="@+id/fragment_settings_switch_wind_speed" />
 
     <Button
-        android:id="@+id/button_get_weather_activity_start"
+        android:id="@+id/fragment_settings_button_get_weather"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:onClick="onClickEvent"
         android:text="@string/get_weather"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

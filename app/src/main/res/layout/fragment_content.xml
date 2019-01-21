@@ -28,7 +28,7 @@
         tools:text="Weather in" />
 
     <TextView
-        android:id="@+id/temperValue"
+        android:id="@+id/fragment_content_temperValue"
         android:layout_width="191dp"
         android:layout_height="63dp"
         android:layout_marginStart="8dp"
@@ -39,16 +39,16 @@
         android:textSize="48sp"
         app2:layout_constraintEnd_toEndOf="parent"
         app2:layout_constraintStart_toStartOf="parent"
-        app2:layout_constraintTop_toBottomOf="@+id/imageView"
+        app2:layout_constraintTop_toBottomOf="@+id/fragment_content_imageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_content_imageView"
         tools:text="temperValue" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/fragment_content_button"
         android:layout_width="92dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
@@ -66,7 +66,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/text_city_content_main"
+        android:id="@+id/fragment_content_text_city"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -84,7 +84,7 @@
         tools:text="text_city" />
 
     <TextView
-        android:id="@+id/text_wetness_content_main"
+        android:id="@+id/fragment_content_text_wetness"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -92,13 +92,13 @@
         android:textAlignment="textStart"
         android:textSize="20sp"
         app2:layout_constraintStart_toStartOf="parent"
-        app2:layout_constraintTop_toBottomOf="@+id/temperValue"
+        app2:layout_constraintTop_toBottomOf="@+id/fragment_content_temperValue"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_wind_speed_content_main"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_content_text_wind_speed"
         tools:text="wetness" />
 
     <TextView
-        android:id="@+id/text_wind_speed_content_main"
+        android:id="@+id/fragment_content_text_wind_speed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -106,13 +106,13 @@
         android:textAlignment="textStart"
         android:textSize="20sp"
         app2:layout_constraintStart_toStartOf="parent"
-        app2:layout_constraintTop_toBottomOf="@+id/text_wetness_content_main"
+        app2:layout_constraintTop_toBottomOf="@+id/fragment_content_text_wetness"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_air_pressure_content_main"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_content_text_air_pressure"
         tools:text="wind_speed" />
 
     <TextView
-        android:id="@+id/text_air_pressure_content_main"
+        android:id="@+id/fragment_content_text_air_pressure"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -120,13 +120,13 @@
         android:textAlignment="textStart"
         android:textSize="20sp"
         app2:layout_constraintStart_toStartOf="parent"
-        app2:layout_constraintTop_toBottomOf="@+id/text_wind_speed_content_main"
+        app2:layout_constraintTop_toBottomOf="@+id/fragment_content_text_wind_speed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/temperValue"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_content_temperValue"
         tools:text="air_pressure" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/fragment_content_imageView"
         android:layout_width="77dp"
         android:layout_height="81dp"
         android:layout_marginStart="8dp"
@@ -135,10 +135,22 @@
         app2:layout_constraintEnd_toEndOf="parent"
         app2:layout_constraintHorizontal_bias="0.501"
         app2:layout_constraintStart_toStartOf="parent"
-        app2:layout_constraintTop_toBottomOf="@+id/text_city_content_main"
+        android:contentDescription="@string/fragment_content_weather_icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_city_content_main"
-        app:srcCompat="@drawable/weather_icon" />
+        app2:layout_constraintTop_toBottomOf="@+id/fragment_content_text_city"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_content_text_city"
+        app:src="@drawable/weather_icon" />
+
+    <ImageButton
+        android:id="@+id/fragment_content_button_return"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@android:color/transparent"
+        android:src="@android:drawable/ic_menu_revert"
+        app2:layout_constraintStart_toStartOf="parent"
+        app2:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

@@ -1,12 +1,14 @@
 package ru.test.weatherapp
 
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.Switch
+import android.widget.Toast
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -29,6 +31,7 @@ class SettingsFragment : Fragment() {
     private var param2: String? = null
     private var listener: OnFragmentInteractionListener? = null
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -40,13 +43,42 @@ class SettingsFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false)
+        val inflatedView = inflater.inflate(R.layout.fragment_settings, container, false)
+        val buttonFromFragment = inflatedView.findViewById<View>(R.id.fragment_settings_button_get_weather)
+        val cityName = inflatedView.findViewById<EditText>(R.id.fragment_settings_text_city)
+        buttonFromFragment.setOnClickListener {
+            listener?.onFragmentInteraction(1)
+            if (cityName.text.toString().isEmpty()) {
+                Toast.makeText(activity, "Укажите город, для которого Вы хотите узнать температуру", Toast.LENGTH_SHORT).show()
+            } else {
+                Settings.instance().city = cityName.text.toString()
+                Settings.instance().airPressure = inflatedView.findViewById<Switch>(R.id.fragment_settings_switch_air_pressure).isChecked
+                Settings.instance().wetness = inflatedView.findViewById<Switch>(R.id.fragment_settings_switch_wetness).isChecked
+                Settings.instance().windSpeed = inflatedView.findViewById<Switch>(R.id.fragment_settings_switch_wind_speed).isChecked
+            }
+        }
+        return inflatedView
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
-    fun onButtonPressed(uri: Uri) {
-        listener?.onFragmentInteraction(uri)
+    fun onButtonPressed() {
+        listener?.onFragmentInteraction(1)
     }
+
+/*    fun onButtonClick(view: View) {
+        if (fragment_settings_text_city.text.toString().isEmpty()) {
+            Toast.makeText(activity, "Укажите город, для которого Вы хотите узнать температуру", Toast.LENGTH_SHORT).show()
+            return
+        }
+        Settings.instance().city = fragment_settings_text_city.text.toString()
+        Settings.instance().airPressure = fragment_settings_switch_air_pressure.isChecked
+        Settings.instance().wetness = fragment_settings_switch_wetness.isChecked
+        Settings.instance().windSpeed = fragment_settings_switch_wind_speed.isChecked
+        //listener?.onFragmentInteraction(uri)
+        *//*val intent = Intent(App.instance(), MainActivityOld::class.java)
+        startActivity(intent)*//*
+    }*/
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -74,8 +106,7 @@ class SettingsFragment : Fragment() {
      * for more information.
      */
     interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        fun onFragmentInteraction(uri: Uri)
+        fun onFragmentInteraction(currentFragment: Int)
     }
 
     companion object {
