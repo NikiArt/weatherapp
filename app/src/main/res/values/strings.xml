@@ -9,4 +9,9 @@
     <string name="wind_speed">Wind speed</string>
     <string name="air_pressure">Air pressure</string>
     <string name="get_weather">Get weather</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="title_activity_main2" translatable="false">Main2Activity</string>
+    <string name="fragment_content_weather_icon" translatable="false">Weather icon</string>
 </resources>
