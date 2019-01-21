@@ -24,4 +24,8 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="AppThemeChanged.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppThemeChanged.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
 </resources>
