@@ -66,19 +66,6 @@ class SettingsFragment : Fragment() {
         listener?.onFragmentInteraction(1)
     }
 
-/*    fun onButtonClick(view: View) {
-        if (fragment_settings_text_city.text.toString().isEmpty()) {
-            Toast.makeText(activity, "Укажите город, для которого Вы хотите узнать температуру", Toast.LENGTH_SHORT).show()
-            return
-        }
-        Settings.instance().city = fragment_settings_text_city.text.toString()
-        Settings.instance().airPressure = fragment_settings_switch_air_pressure.isChecked
-        Settings.instance().wetness = fragment_settings_switch_wetness.isChecked
-        Settings.instance().windSpeed = fragment_settings_switch_wind_speed.isChecked
-        //listener?.onFragmentInteraction(uri)
-        *//*val intent = Intent(App.instance(), MainActivityOld::class.java)
-        startActivity(intent)*//*
-    }*/
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
