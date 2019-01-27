@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
+import java.util.*
 
 
 class ContentFragment : Fragment() {
@@ -105,6 +106,11 @@ class ContentFragment : Fragment() {
     private fun getWeather() {
         val temperature = (Math.random() * 30).toInt()
         val temperText = (if (Math.random() > 0.5) "" else "-") + temperature + " \u00B0C"
+        val airPressureValue = (Math.random() * 1000).toInt()
+        val wetnessValue = (Math.random() * 100).toInt()
+        val windSpeedValue = (Math.random() * 30).toInt()
+        val weatherValue = WeatherValue(temperature, wetnessValue, airPressureValue, windSpeedValue, Date())
+        Settings.instance().addHistory(weatherValue)
         temperValue.text = temperText
 
         wetness.visibility = View.INVISIBLE
@@ -113,19 +119,19 @@ class ContentFragment : Fragment() {
 
         if (Settings.instance().airPressure) {
             airPressure.visibility = View.VISIBLE
-            val airPressureText = "Давление воздуха: " + (Math.random() * 1000).toInt() + " мм рт. с."
+            val airPressureText = "Давление воздуха: $airPressureValue мм рт. с."
             airPressure.text = airPressureText
         }
 
         if (Settings.instance().wetness) {
             wetness.visibility = View.VISIBLE
-            val wetnessText = "Влажность: " + (Math.random() * 100).toInt() + " %"
+            val wetnessText = "Влажность: $wetnessValue %"
             wetness.text = wetnessText
         }
 
         if (Settings.instance().windSpeed) {
             windSpeed.visibility = View.VISIBLE
-            val windSpeedText = "Скорость ветра: " + (Math.random() * 20).toInt() + " м/с"
+            val windSpeedText = "Скорость ветра: $windSpeedValue м/с"
             windSpeed.text = windSpeedText
         }
     }
