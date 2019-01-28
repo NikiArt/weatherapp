@@ -6,9 +6,8 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageButton
 import android.widget.TextView
+import kotlinx.android.synthetic.main.fragment_content.view.*
 import java.util.*
 
 
@@ -35,8 +34,9 @@ class ContentFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val inflatedView = inflater.inflate(R.layout.fragment_content, container, false)
-        val buttonFromFragment = inflatedView.findViewById<Button>(R.id.fragment_content_button)
-        val backButtonFromFragment = inflatedView.findViewById<ImageButton>(R.id.fragment_content_button_return)
+        val buttonFromFragment = inflatedView.fragment_content_button
+        val buttonHistory = inflatedView.fragment_content_button_history
+        val backButtonFromFragment = inflatedView.fragment_content_button_return
         cityName = inflatedView.findViewById(R.id.fragment_content_text_city)
         airPressure = inflatedView.findViewById(R.id.fragment_content_text_air_pressure)
         wetness = inflatedView.findViewById(R.id.fragment_content_text_wetness)
@@ -51,7 +51,11 @@ class ContentFragment : Fragment() {
         }
 
         backButtonFromFragment.setOnClickListener {
-            mListener?.onFragmentInteraction(2)
+            mListener?.onFragmentInteraction(2, 1)
+        }
+
+        buttonHistory.setOnClickListener {
+            mListener?.onFragmentInteraction(2, 3)
         }
 
         return inflatedView
@@ -64,7 +68,7 @@ class ContentFragment : Fragment() {
 
     fun onButtonPressed() {
         if (mListener != null) {
-            mListener!!.onFragmentInteraction(2)
+            mListener!!.onFragmentInteraction(2, 1)
         }
     }
 
@@ -84,7 +88,7 @@ class ContentFragment : Fragment() {
 
 
     interface OnFragmentInteractionListener {
-        fun onFragmentInteraction(currentFragment: Int)
+        fun onFragmentInteraction(currentFragment: Int, nextFragment: Int)
     }
 
     companion object {

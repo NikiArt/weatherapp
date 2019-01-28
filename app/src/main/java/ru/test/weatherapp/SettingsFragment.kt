@@ -47,7 +47,7 @@ class SettingsFragment : Fragment() {
         val buttonFromFragment = inflatedView.findViewById<View>(R.id.fragment_settings_button_get_weather)
         val cityName = inflatedView.findViewById<EditText>(R.id.fragment_settings_text_city)
         buttonFromFragment.setOnClickListener {
-            listener?.onFragmentInteraction(1)
+            listener?.onFragmentInteraction(1, 2)
             if (cityName.text.toString().isEmpty()) {
                 Toast.makeText(activity, "Укажите город, для которого Вы хотите узнать температуру", Toast.LENGTH_SHORT).show()
             } else {
@@ -63,7 +63,7 @@ class SettingsFragment : Fragment() {
 
     // TODO: Rename method, update argument and hook method into UI event
     fun onButtonPressed() {
-        listener?.onFragmentInteraction(1)
+        listener?.onFragmentInteraction(1, 2)
     }
 
 
@@ -93,7 +93,7 @@ class SettingsFragment : Fragment() {
      * for more information.
      */
     interface OnFragmentInteractionListener {
-        fun onFragmentInteraction(currentFragment: Int)
+        fun onFragmentInteraction(currentFragment: Int, nextFragment: Int)
     }
 
     companion object {
