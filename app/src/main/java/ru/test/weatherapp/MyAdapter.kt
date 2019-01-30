@@ -29,10 +29,10 @@ class MyAdapter : RecyclerView.Adapter<ViewHolder>() {
         holder.cityName.text.clear()
         holder.date.text.clear()
 
-        holder.temperature.text.append(Settings.instance().weatherHistory[position].temperature.toString())
-        holder.wetness.text.append(Settings.instance().weatherHistory[position].wetness.toString())
-        holder.windSpeed.text.append(Settings.instance().weatherHistory[position].windSpeed.toString())
-        holder.airPressure.text.append(Settings.instance().weatherHistory[position].airPressure.toString())
+        holder.temperature.text.append(Settings.instance().weatherHistory[position].temperature.toString() + " \u00B0C")
+        holder.wetness.text.append("Влажность: ${Settings.instance().weatherHistory[position].wetness}%")
+        holder.windSpeed.text.append("Скорость ветра: ${Settings.instance().weatherHistory[position].windSpeed} м/с")
+        holder.airPressure.text.append("Давление: ${Settings.instance().weatherHistory[position].airPressure} мм рт.с.")
         holder.cityName.text.append(Settings.instance().weatherHistory[position].cityName)
         holder.date.text.append(sdf.format(Settings.instance().weatherHistory[position].currentDate))
     }
