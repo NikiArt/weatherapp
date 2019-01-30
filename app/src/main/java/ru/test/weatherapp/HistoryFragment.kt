@@ -3,6 +3,8 @@ package ru.test.weatherapp
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,9 +30,10 @@ class HistoryFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val inflatedView = inflater.inflate(R.layout.fragment_history, container, false)
-
-        val adapter = MyAdapter()
-        inflatedView.fragment_history_list.adapter = adapter
+        val d = Log.d("DEBon", "debug: в классе хистори фрагмента перед созданием экземпляра адаптера")
+        inflatedView.fragment_history_list.layoutManager = LinearLayoutManager(context)
+        val myAdapter = MyAdapter()
+        inflatedView.fragment_history_list.adapter = myAdapter
 
         return inflatedView
     }

@@ -113,7 +113,7 @@ class ContentFragment : Fragment() {
         val airPressureValue = (Math.random() * 1000).toInt()
         val wetnessValue = (Math.random() * 100).toInt()
         val windSpeedValue = (Math.random() * 30).toInt()
-        val weatherValue = WeatherValue(temperature, wetnessValue, airPressureValue, windSpeedValue, Date())
+        val weatherValue = WeatherValue(temperature, wetnessValue, airPressureValue, windSpeedValue, Date(), Settings.instance().city)
         Settings.instance().addHistory(weatherValue)
         temperValue.text = temperText
 

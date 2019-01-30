@@ -1,37 +1,41 @@
 package ru.test.weatherapp
 
-import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import kotlinx.android.synthetic.main.item.view.*
+import java.text.SimpleDateFormat
 
 
-class MyAdapter() : RecyclerView.Adapter<ViewHolder>() {
+class MyAdapter : RecyclerView.Adapter<ViewHolder>() {
+    val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
     private val cities = mutableListOf("Москва", "Санкт-Петербург", "Новосибирск", "Екатеринбург")
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item, parent, false)
+        Log.d("DEBon", "debug: попали в класс адаптера")
         return ViewHolder(view)
     }
 
     override fun getItemCount(): Int {
-        //return Settings.instance().weatherHistory.size
-        return cities.size
+        return Settings.instance().weatherHistory.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.textView.text = cities[position]
-        val lp = holder.textView.layoutParams as ConstraintLayout.LayoutParams
-        holder.textView.layoutParams = lp
+        holder.temperature.text.clear()
+        holder.wetness.text.clear()
+        holder.windSpeed.text.clear()
+        holder.airPressure.text.clear()
+        holder.cityName.text.clear()
+        holder.date.text.clear()
 
-        //holder.textView.text = "1 " + Settings.instance().weatherHistory[position].temperature.toString()
+        holder.temperature.text.append(Settings.instance().weatherHistory[position].temperature.toString())
+        holder.wetness.text.append(Settings.instance().weatherHistory[position].wetness.toString())
+        holder.windSpeed.text.append(Settings.instance().weatherHistory[position].windSpeed.toString())
+        holder.airPressure.text.append(Settings.instance().weatherHistory[position].airPressure.toString())
+        holder.cityName.text.append(Settings.instance().weatherHistory[position].cityName)
+        holder.date.text.append(sdf.format(Settings.instance().weatherHistory[position].currentDate))
     }
 }
 
-class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    var textView: TextView = view.item_text_view
-    var constraintView = view.item_constraint_view
-}
+
