@@ -6,10 +6,9 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageButton
 import android.widget.TextView
-
+import kotlinx.android.synthetic.main.fragment_content.view.*
+import java.util.*
 
 class ContentFragment : Fragment() {
 
@@ -34,8 +33,8 @@ class ContentFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val inflatedView = inflater.inflate(R.layout.fragment_content, container, false)
-        val buttonFromFragment = inflatedView.findViewById<Button>(R.id.fragment_content_button)
-        val backButtonFromFragment = inflatedView.findViewById<ImageButton>(R.id.fragment_content_button_return)
+        val buttonFromFragment = inflatedView.fragment_content_button
+        val buttonHistory = inflatedView.fragment_content_button_history
         cityName = inflatedView.findViewById(R.id.fragment_content_text_city)
         airPressure = inflatedView.findViewById(R.id.fragment_content_text_air_pressure)
         wetness = inflatedView.findViewById(R.id.fragment_content_text_wetness)
@@ -49,8 +48,8 @@ class ContentFragment : Fragment() {
             getWeather()
         }
 
-        backButtonFromFragment.setOnClickListener {
-            mListener?.onFragmentInteraction(2)
+        buttonHistory.setOnClickListener {
+            mListener?.onFragmentInteraction(2, 3)
         }
 
         return inflatedView
@@ -63,7 +62,7 @@ class ContentFragment : Fragment() {
 
     fun onButtonPressed() {
         if (mListener != null) {
-            mListener!!.onFragmentInteraction(2)
+            mListener!!.onFragmentInteraction(2, 1)
         }
     }
 
@@ -83,7 +82,7 @@ class ContentFragment : Fragment() {
 
 
     interface OnFragmentInteractionListener {
-        fun onFragmentInteraction(currentFragment: Int)
+        fun onFragmentInteraction(currentFragment: Int, nextFragment: Int)
     }
 
     companion object {
@@ -102,9 +101,16 @@ class ContentFragment : Fragment() {
         }
     }
 
-    private fun getWeather() {
+    public fun getWeather() {
+        cityName.text = Settings.instance().city
+
         val temperature = (Math.random() * 30).toInt()
         val temperText = (if (Math.random() > 0.5) "" else "-") + temperature + " \u00B0C"
+        val airPressureValue = (Math.random() * 1000).toInt()
+        val wetnessValue = (Math.random() * 100).toInt()
+        val windSpeedValue = (Math.random() * 30).toInt()
+        val weatherValue = WeatherValue(temperature, wetnessValue, airPressureValue, windSpeedValue, Date(), Settings.instance().city)
+        Settings.instance().addHistory(weatherValue)
         temperValue.text = temperText
 
         wetness.visibility = View.INVISIBLE
@@ -113,19 +119,19 @@ class ContentFragment : Fragment() {
 
         if (Settings.instance().airPressure) {
             airPressure.visibility = View.VISIBLE
-            val airPressureText = "Давление воздуха: " + (Math.random() * 1000).toInt() + " мм рт. с."
+            val airPressureText = "Давление воздуха: $airPressureValue мм рт. с."
             airPressure.text = airPressureText
         }
 
         if (Settings.instance().wetness) {
             wetness.visibility = View.VISIBLE
-            val wetnessText = "Влажность: " + (Math.random() * 100).toInt() + " %"
+            val wetnessText = "Влажность: $wetnessValue %"
             wetness.text = wetnessText
         }
 
         if (Settings.instance().windSpeed) {
             windSpeed.visibility = View.VISIBLE
-            val windSpeedText = "Скорость ветра: " + (Math.random() * 20).toInt() + " м/с"
+            val windSpeedText = "Скорость ветра: $windSpeedValue м/с"
             windSpeed.text = windSpeedText
         }
     }

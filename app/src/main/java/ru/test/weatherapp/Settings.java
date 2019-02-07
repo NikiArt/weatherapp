@@ -1,11 +1,15 @@
 package ru.test.weatherapp;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Settings {
     private static Settings instance;
-    private String city;
+    private String city = "";
     private Boolean wetness = false;
     private Boolean windSpeed = false;
     private Boolean airPressure = false;
+    private static List<WeatherValue> weatherHistory;
 
     public Settings() {
     }
@@ -13,6 +17,7 @@ public class Settings {
     public static synchronized Settings instance() {
         if (instance == null) {
             instance = new Settings();
+            weatherHistory = new ArrayList();
         }
         return instance;
     }
@@ -47,5 +52,13 @@ public class Settings {
 
     public void setAirPressure(Boolean airPressure) {
         this.airPressure = airPressure;
+    }
+
+    public void addHistory(WeatherValue weatherValue) {
+        weatherHistory.add(weatherValue);
+    }
+
+    public List<WeatherValue> getWeatherHistory() {
+        return weatherHistory;
     }
 }

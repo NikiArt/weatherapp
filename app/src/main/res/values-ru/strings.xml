@@ -7,4 +7,7 @@
     <string name="wind_speed">Скорость ветра</string>
     <string name="air_pressure">Давление</string>
     <string name="get_weather">Получить</string>
+    <string name="navigation_drawer_open">Открыть панель навигации</string>
+    <string name="navigation_drawer_close">Закрыть панель навигации</string>
+    <string name="nav_header_title">Никита Бойко</string>
 </resources>
