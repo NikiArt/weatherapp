@@ -40,7 +40,6 @@ class ContentFragment : Fragment() {
         wetness = inflatedView.findViewById(R.id.fragment_content_text_wetness)
         windSpeed = inflatedView.findViewById(R.id.fragment_content_text_wind_speed)
         temperValue = inflatedView.findViewById(R.id.fragment_content_temperValue)
-
         cityName.text = Settings.instance().city
         getWeather()
 
