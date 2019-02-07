@@ -10,7 +10,6 @@ import android.widget.TextView
 import kotlinx.android.synthetic.main.fragment_content.view.*
 import java.util.*
 
-
 class ContentFragment : Fragment() {
 
     private lateinit var mParam1: String
@@ -36,7 +35,6 @@ class ContentFragment : Fragment() {
         val inflatedView = inflater.inflate(R.layout.fragment_content, container, false)
         val buttonFromFragment = inflatedView.fragment_content_button
         val buttonHistory = inflatedView.fragment_content_button_history
-        val backButtonFromFragment = inflatedView.fragment_content_button_return
         cityName = inflatedView.findViewById(R.id.fragment_content_text_city)
         airPressure = inflatedView.findViewById(R.id.fragment_content_text_air_pressure)
         wetness = inflatedView.findViewById(R.id.fragment_content_text_wetness)
@@ -48,10 +46,6 @@ class ContentFragment : Fragment() {
 
         buttonFromFragment.setOnClickListener {
             getWeather()
-        }
-
-        backButtonFromFragment.setOnClickListener {
-            mListener?.onFragmentInteraction(2, 1)
         }
 
         buttonHistory.setOnClickListener {
@@ -107,7 +101,9 @@ class ContentFragment : Fragment() {
         }
     }
 
-    private fun getWeather() {
+    public fun getWeather() {
+        cityName.text = Settings.instance().city
+
         val temperature = (Math.random() * 30).toInt()
         val temperText = (if (Math.random() > 0.5) "" else "-") + temperature + " \u00B0C"
         val airPressureValue = (Math.random() * 1000).toInt()

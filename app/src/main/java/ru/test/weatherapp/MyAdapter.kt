@@ -1,7 +1,6 @@
 package ru.test.weatherapp
 
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import java.text.SimpleDateFormat
@@ -9,11 +8,9 @@ import java.text.SimpleDateFormat
 
 class MyAdapter : RecyclerView.Adapter<ViewHolder>() {
     val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
-    private val cities = mutableListOf("Москва", "Санкт-Петербург", "Новосибирск", "Екатеринбург")
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item, parent, false)
-        Log.d("DEBon", "debug: попали в класс адаптера")
         return ViewHolder(view)
     }
 

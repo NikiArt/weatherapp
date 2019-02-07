@@ -5,12 +5,11 @@ import java.util.List;
 
 public class Settings {
     private static Settings instance;
-    private String city;
+    private String city = "";
     private Boolean wetness = false;
     private Boolean windSpeed = false;
     private Boolean airPressure = false;
     private static List<WeatherValue> weatherHistory;
-
 
     public Settings() {
     }

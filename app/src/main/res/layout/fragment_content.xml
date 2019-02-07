@@ -147,15 +147,4 @@
         app2:layout_constraintTop_toBottomOf="@+id/fragment_content_text_city"
         app:layout_constraintTop_toBottomOf="@+id/fragment_content_text_city"
         app:src="@drawable/weather_icon" />
-
-    <ImageButton
-        android:id="@+id/fragment_content_button_return"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:background="@android:color/transparent"
-        android:src="@android:drawable/ic_menu_revert"
-        app2:layout_constraintStart_toStartOf="parent"
-        app2:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

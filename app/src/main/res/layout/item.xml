@@ -13,7 +13,7 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorAccentChanged">
+        android:background="#48E6D597">
 
         <EditText
             android:id="@+id/item_text_temperature"
