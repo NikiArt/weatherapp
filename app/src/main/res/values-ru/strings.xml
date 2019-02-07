@@ -10,4 +10,7 @@
     <string name="navigation_drawer_open">Открыть панель навигации</string>
     <string name="navigation_drawer_close">Закрыть панель навигации</string>
     <string name="nav_header_title">Никита Бойко</string>
+    <string name="title_activity_main">Погода</string>
+    <string name="about_developer">О разработчике</string>
+    <string name="write_me">Напишите мне</string>
 </resources>
