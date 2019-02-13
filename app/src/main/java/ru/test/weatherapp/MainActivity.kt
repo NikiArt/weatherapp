@@ -1,5 +1,6 @@
 package ru.test.weatherapp
 
+import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.design.widget.Snackbar
@@ -12,6 +13,7 @@ import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, SettingsFragment.OnFragmentInteractionListener, ContentFragment.OnFragmentInteractionListener, HistoryFragment.OnFragmentInteractionListener {
     val settingsFragment = SettingsFragment()
@@ -61,6 +63,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         var fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.add(R.id.content_main_frame, settingsFragment)
         fragmentTransaction.commit()
+
+
     }
 
     override fun onBackPressed() {
@@ -106,5 +110,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         } else {
             super.onKeyDown(keyCode, event)
         }
+    }
+
+    override fun onDestroy() {
+        val editor = getPreferences(Context.MODE_PRIVATE).edit()
+        editor.putString("cityName", Settings.instance().city)
+        editor.putBoolean("wetness", Settings.instance().wetness)
+        editor.putBoolean("airPressure", Settings.instance().airPressure)
+        editor.putBoolean("windSpeed", Settings.instance().windSpeed)
+        editor.apply()
+        super.onDestroy()
     }
 }
