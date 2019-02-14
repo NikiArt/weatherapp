@@ -103,7 +103,6 @@ class ContentFragment : Fragment() {
 
     public fun getWeather() {
         cityName.text = Settings.instance().city
-
         val temperature = (Math.random() * 30).toInt()
         val temperText = (if (Math.random() > 0.5) "" else "-") + temperature + " \u00B0C"
         val airPressureValue = (Math.random() * 1000).toInt()
