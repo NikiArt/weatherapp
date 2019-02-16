@@ -31,15 +31,25 @@ class SettingsFragment : Fragment() {
         val inflatedView = inflater.inflate(R.layout.fragment_settings, container, false)
         val buttonFromFragment = inflatedView.findViewById<View>(R.id.fragment_settings_button_get_weather)
         val cityName = inflatedView.findViewById<EditText>(R.id.fragment_settings_text_city)
+        val airPressure = inflatedView.findViewById<Switch>(R.id.fragment_settings_switch_air_pressure)
+        val wetness = inflatedView.findViewById<Switch>(R.id.fragment_settings_switch_wetness)
+        val windSpeed = inflatedView.findViewById<Switch>(R.id.fragment_settings_switch_wind_speed)
+
+        val pref = activity!!.getPreferences(Context.MODE_PRIVATE)
+        cityName.setText(pref.getString("cityName", ""))
+        wetness.isChecked = pref.getBoolean("wetness", true)
+        airPressure.isChecked = pref.getBoolean("airPressure", true)
+        windSpeed.isChecked = pref.getBoolean("windSpeed", true)
+
         buttonFromFragment.setOnClickListener {
             listener?.onFragmentInteraction(1, 2)
             if (cityName.text.toString().isEmpty()) {
                 Toast.makeText(activity, "Укажите город, для которого Вы хотите узнать температуру", Toast.LENGTH_SHORT).show()
             } else {
                 Settings.instance().city = cityName.text.toString()
-                Settings.instance().airPressure = inflatedView.findViewById<Switch>(R.id.fragment_settings_switch_air_pressure).isChecked
-                Settings.instance().wetness = inflatedView.findViewById<Switch>(R.id.fragment_settings_switch_wetness).isChecked
-                Settings.instance().windSpeed = inflatedView.findViewById<Switch>(R.id.fragment_settings_switch_wind_speed).isChecked
+                Settings.instance().airPressure = airPressure.isChecked
+                Settings.instance().wetness = wetness.isChecked
+                Settings.instance().windSpeed = windSpeed.isChecked
             }
         }
         return inflatedView
