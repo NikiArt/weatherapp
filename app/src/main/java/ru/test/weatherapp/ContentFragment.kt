@@ -7,7 +7,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_content.view.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -15,6 +17,7 @@ import retrofit2.Response
 import ru.test.weatherapp.parsingJson.WValue
 import java.math.BigDecimal
 import java.math.RoundingMode
+import java.net.URL
 import java.util.*
 
 class ContentFragment : Fragment() {
@@ -24,6 +27,7 @@ class ContentFragment : Fragment() {
     lateinit var wetness: TextView
     lateinit var windSpeed: TextView
     lateinit var temperValue: TextView
+    lateinit var imageView: ImageView
 
     private var mListener: OnFragmentInteractionListener? = null
 
@@ -41,7 +45,7 @@ class ContentFragment : Fragment() {
         wetness = inflatedView.findViewById(R.id.fragment_content_text_wetness)
         windSpeed = inflatedView.findViewById(R.id.fragment_content_text_wind_speed)
         temperValue = inflatedView.findViewById(R.id.fragment_content_temperValue)
-        inflatedView.fragment_content_weather_image.animate().rotation(1480f).setDuration(8000)
+        imageView = inflatedView.fragment_content_weather_image
         cityName.text = Settings.instance().city
         getWeather()
 
@@ -102,8 +106,6 @@ class ContentFragment : Fragment() {
         //var weatherValue: WeatherValue
         App.getApi().getWeather(Settings.instance().apiKey, Settings.instance().city).enqueue(object : Callback<WValue> {
             override fun onResponse(call: Call<WValue>, response: Response<WValue>) {
-                Log.d("DDLog", "" + response.body().toString())
-                response.body()
                 val weatherValue = WeatherValue(
                         response.body()!!.current!!.tempC,
                         response.body()!!.current!!.humidity,
@@ -112,7 +114,7 @@ class ContentFragment : Fragment() {
                         Date(),
                         response.body()!!.location!!.name!!)
                 Settings.instance().addHistory(weatherValue)
-                writeValues(weatherValue)
+                writeValues(weatherValue, response.body()!!.current!!.condition!!.icon!!)
             }
 
             override fun onFailure(call: Call<WValue>, t: Throwable) {
@@ -123,7 +125,11 @@ class ContentFragment : Fragment() {
     }
 
 
-    fun writeValues(currentWeather: WeatherValue) {
+    fun writeValues(currentWeather: WeatherValue, image: String) {
+        Glide.with(this!!.context!!)
+                .load(URL("http:$image"))
+                .into(imageView)
+
         temperValue.text = "${currentWeather.temperature} \u00B0C"
 
         wetness.visibility = View.INVISIBLE
