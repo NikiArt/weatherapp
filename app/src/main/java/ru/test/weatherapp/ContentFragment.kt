@@ -13,6 +13,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import ru.test.weatherapp.parsingJson.WValue
+import java.math.BigDecimal
+import java.math.RoundingMode
 import java.util.*
 
 class ContentFragment : Fragment() {
@@ -105,8 +107,8 @@ class ContentFragment : Fragment() {
                 val weatherValue = WeatherValue(
                         response.body()!!.current!!.tempC,
                         response.body()!!.current!!.humidity,
-                        response.body()!!.current!!.pressureMb!! * 0.75,
-                        response.body()!!.current!!.windKph!! / 3.6,
+                        BigDecimal(response.body()!!.current!!.pressureMb!! * 0.75).setScale(2, RoundingMode.HALF_EVEN).toDouble(),
+                        BigDecimal(response.body()!!.current!!.windKph!! / 3.6).setScale(2, RoundingMode.HALF_EVEN).toDouble(),
                         Date(),
                         response.body()!!.location!!.name!!)
                 Settings.instance().addHistory(weatherValue)
@@ -118,14 +120,6 @@ class ContentFragment : Fragment() {
                 Log.e("DDLog", "" + t.printStackTrace())
             }
         })
-        /*val temperature = (Math.random() * 30).toInt()
-        val temperText = (if (Math.random() > 0.5) "" else "-") + temperature + " \u00B0C"
-        val airPressureValue = (Math.random() * 1000).toInt()
-        val wetnessValue = (Math.random() * 100).toInt()
-        val windSpeedValue = (Math.random() * 30).toInt()*/
-        // val weatherValue = WeatherValue(temperature, wetnessValue, airPressureValue, windSpeedValue, Date(), Settings.instance().city)
-        //Settings.instance().addHistory(weatherValue)
-
     }
 
 
