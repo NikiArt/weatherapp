@@ -3,17 +3,20 @@ package ru.test.weatherapp
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import kotlinx.android.synthetic.main.fragment_content.view.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import ru.test.weatherapp.parsingJson.WValue
 import java.util.*
 
 class ContentFragment : Fragment() {
 
-    private lateinit var mParam1: String
-    private lateinit var mParam2: String
     lateinit var cityName: TextView
     lateinit var airPressure: TextView
     lateinit var wetness: TextView
@@ -24,10 +27,6 @@ class ContentFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (arguments != null) {
-            mParam1 = arguments!!.getString(ARG_PARAM1)
-            mParam2 = arguments!!.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -86,16 +85,11 @@ class ContentFragment : Fragment() {
     }
 
     companion object {
-        private val ARG_PARAM1 = "param1"
-        private val ARG_PARAM2 = "param2"
-        // The request code must be 0 or greater.
         private val PLUS_ONE_REQUEST_CODE = 0
 
         fun newInstance(param1: String, param2: String): ContentFragment {
             val fragment = ContentFragment()
             val args = Bundle()
-            args.putString(ARG_PARAM1, param1)
-            args.putString(ARG_PARAM2, param2)
             fragment.arguments = args
             return fragment
         }
@@ -103,15 +97,40 @@ class ContentFragment : Fragment() {
 
     public fun getWeather() {
         cityName.text = Settings.instance().city
+        //var weatherValue: WeatherValue
+        App.getApi().getWeather(Settings.instance().apiKey, Settings.instance().city).enqueue(object : Callback<WValue> {
+            override fun onResponse(call: Call<WValue>, response: Response<WValue>) {
+                Log.d("DDLog", "" + response.body().toString())
+                response.body()
+                val weatherValue = WeatherValue(
+                        response.body()!!.current!!.tempC,
+                        response.body()!!.current!!.humidity,
+                        response.body()!!.current!!.pressureMb!! * 0.75,
+                        response.body()!!.current!!.windKph!! / 3.6,
+                        Date(),
+                        response.body()!!.location!!.name!!)
+                Settings.instance().addHistory(weatherValue)
+                writeValues(weatherValue)
+            }
 
-        val temperature = (Math.random() * 30).toInt()
+            override fun onFailure(call: Call<WValue>, t: Throwable) {
+                t.printStackTrace()
+                Log.e("DDLog", "" + t.printStackTrace())
+            }
+        })
+        /*val temperature = (Math.random() * 30).toInt()
         val temperText = (if (Math.random() > 0.5) "" else "-") + temperature + " \u00B0C"
         val airPressureValue = (Math.random() * 1000).toInt()
         val wetnessValue = (Math.random() * 100).toInt()
-        val windSpeedValue = (Math.random() * 30).toInt()
-        val weatherValue = WeatherValue(temperature, wetnessValue, airPressureValue, windSpeedValue, Date(), Settings.instance().city)
-        Settings.instance().addHistory(weatherValue)
-        temperValue.text = temperText
+        val windSpeedValue = (Math.random() * 30).toInt()*/
+        // val weatherValue = WeatherValue(temperature, wetnessValue, airPressureValue, windSpeedValue, Date(), Settings.instance().city)
+        //Settings.instance().addHistory(weatherValue)
+
+    }
+
+
+    fun writeValues(currentWeather: WeatherValue) {
+        temperValue.text = "${currentWeather.temperature} \u00B0C"
 
         wetness.visibility = View.INVISIBLE
         windSpeed.visibility = View.INVISIBLE
@@ -119,21 +138,22 @@ class ContentFragment : Fragment() {
 
         if (Settings.instance().airPressure) {
             airPressure.visibility = View.VISIBLE
-            val airPressureText = "Давление воздуха: $airPressureValue мм рт. с."
+            val airPressureText = "Давление воздуха: ${currentWeather.airPressure} мм рт. с."
             airPressure.text = airPressureText
         }
 
         if (Settings.instance().wetness) {
             wetness.visibility = View.VISIBLE
-            val wetnessText = "Влажность: $wetnessValue %"
+            val wetnessText = "Влажность: ${currentWeather.wetness} %"
             wetness.text = wetnessText
         }
 
         if (Settings.instance().windSpeed) {
             windSpeed.visibility = View.VISIBLE
-            val windSpeedText = "Скорость ветра: $windSpeedValue м/с"
+            val windSpeedText = "Скорость ветра: ${currentWeather.windSpeed} м/с"
             windSpeed.text = windSpeedText
         }
     }
 
 }
+

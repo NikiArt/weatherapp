@@ -9,6 +9,7 @@ public class Settings {
     private Boolean wetness = false;
     private Boolean windSpeed = false;
     private Boolean airPressure = false;
+    private String apiKey = "4fd10dd3f01a413cb3b94151191402";
     private static List<WeatherValue> weatherHistory;
 
     public Settings() {
@@ -24,6 +25,10 @@ public class Settings {
 
     public String getCity() {
         return city;
+    }
+
+    public String getApiKey() {
+        return apiKey;
     }
 
     public void setCity(String city) {

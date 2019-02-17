@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.IBinder
 import android.util.Log
 import java.text.SimpleDateFormat
-import java.util.*
 
 
 class MainService : Service() {
@@ -28,11 +27,6 @@ class MainService : Service() {
     }
 
     private fun runCycleRequest() {
-        while (true) {
-            Log.i("DDLog", "working hard: ${sdf.format(Date())}")
-            Thread.sleep(10000)
-            Log.i("DDLog", "wake up")
-        }
     }
 
     override fun onBind(intent: Intent?): IBinder? {
