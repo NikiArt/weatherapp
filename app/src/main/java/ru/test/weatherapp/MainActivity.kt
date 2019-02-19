@@ -113,12 +113,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onDestroy() {
+        super.onDestroy()
+    }
+
+    override fun onPause() {
         val editor = getPreferences(Context.MODE_PRIVATE).edit()
         editor.putString("cityName", Settings.instance().city)
         editor.putBoolean("wetness", Settings.instance().wetness)
         editor.putBoolean("airPressure", Settings.instance().airPressure)
         editor.putBoolean("windSpeed", Settings.instance().windSpeed)
         editor.apply()
-        super.onDestroy()
+        super.onPause()
     }
 }
