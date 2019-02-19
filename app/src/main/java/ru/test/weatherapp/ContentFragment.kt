@@ -28,6 +28,7 @@ class ContentFragment : Fragment() {
     lateinit var windSpeed: TextView
     lateinit var temperValue: TextView
     lateinit var imageView: ImageView
+    lateinit var call: Call<WValue>
 
     private var mListener: OnFragmentInteractionListener? = null
 
@@ -104,17 +105,20 @@ class ContentFragment : Fragment() {
     public fun getWeather() {
         cityName.text = Settings.instance().city
         //var weatherValue: WeatherValue
-        App.getApi().getWeather(Settings.instance().apiKey, Settings.instance().city).enqueue(object : Callback<WValue> {
+        call = App.getApi().getWeather(Settings.instance().apiKey, Settings.instance().city)
+        call.enqueue(object : Callback<WValue> {
             override fun onResponse(call: Call<WValue>, response: Response<WValue>) {
                 val weatherValue = WeatherValue(
-                        response.body()!!.current!!.tempC,
-                        response.body()!!.current!!.humidity,
-                        BigDecimal(response.body()!!.current!!.pressureMb!! * 0.75).setScale(2, RoundingMode.HALF_EVEN).toDouble(),
-                        BigDecimal(response.body()!!.current!!.windKph!! / 3.6).setScale(2, RoundingMode.HALF_EVEN).toDouble(),
+                        response.body()?.current?.tempC ?: 0.0,
+                        response.body()?.current?.humidity ?: 0,
+                        BigDecimal((response.body()?.current?.pressureMb
+                                ?: 0.0) * 0.75).setScale(2, RoundingMode.HALF_EVEN).toDouble(),
+                        BigDecimal((response.body()?.current?.windKph
+                                ?: 0.0) / 3.6).setScale(2, RoundingMode.HALF_EVEN).toDouble(),
                         Date(),
-                        response.body()!!.location!!.name!!)
+                        response.body()?.location?.name ?: "")
                 Settings.instance().addHistory(weatherValue)
-                writeValues(weatherValue, response.body()!!.current!!.condition!!.icon!!)
+                writeValues(weatherValue, response.body()?.current?.condition?.icon ?: "")
             }
 
             override fun onFailure(call: Call<WValue>, t: Throwable) {
@@ -126,7 +130,7 @@ class ContentFragment : Fragment() {
 
 
     fun writeValues(currentWeather: WeatherValue, image: String) {
-        Glide.with(this!!.context!!)
+        Glide.with(this?.context ?: App.instance().baseContext)
                 .load(URL("http:$image"))
                 .into(imageView)
 
@@ -155,5 +159,9 @@ class ContentFragment : Fragment() {
         }
     }
 
+    override fun onDestroy() {
+        call.cancel()
+        super.onDestroy()
+    }
 }
 
