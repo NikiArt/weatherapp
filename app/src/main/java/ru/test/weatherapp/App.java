@@ -2,16 +2,20 @@ package ru.test.weatherapp;
 
 import android.app.Application;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import ru.test.weatherapp.database.DatabaseControl;
 
 public class App extends Application {
     private static App instance;
     private static WeatherApi weatherApi;
+    private DatabaseControl dataControl;
+    private SQLiteDatabase database;
 
     public static App instance() {
         return instance;
@@ -27,6 +31,8 @@ public class App extends Application {
         instance = this;
         startService(new Intent(this, MainService.class));
         createRetrofitInstance();
+        dataControl = new DatabaseControl(this, "database.db", null, 1);
+        database = dataControl.getWritableDatabase();
         Log.i("DDLog", "startService(): Done!");
     }
 
@@ -42,5 +48,13 @@ public class App extends Application {
                 .build();
 
         weatherApi = retrofit.create(WeatherApi.class);
+    }
+
+    public DatabaseControl getDataControl() {
+        return dataControl;
+    }
+
+    public SQLiteDatabase getDatabase() {
+        return database;
     }
 }

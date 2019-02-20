@@ -103,11 +103,12 @@ class ContentFragment : Fragment() {
     }
 
     public fun getWeather() {
+        App.instance().dataControl.addCity(Settings.instance().city)
         cityName.text = Settings.instance().city
-        //var weatherValue: WeatherValue
         call = App.getApi().getWeather(Settings.instance().apiKey, Settings.instance().city)
         call.enqueue(object : Callback<WValue> {
             override fun onResponse(call: Call<WValue>, response: Response<WValue>) {
+                val icon = response.body()?.current?.condition?.icon ?: ""
                 val weatherValue = WeatherValue(
                         response.body()?.current?.tempC ?: 0.0,
                         response.body()?.current?.humidity ?: 0,
@@ -115,10 +116,12 @@ class ContentFragment : Fragment() {
                                 ?: 0.0) * 0.75).setScale(2, RoundingMode.HALF_EVEN).toDouble(),
                         BigDecimal((response.body()?.current?.windKph
                                 ?: 0.0) / 3.6).setScale(2, RoundingMode.HALF_EVEN).toDouble(),
-                        Date(),
-                        response.body()?.location?.name ?: "")
-                Settings.instance().addHistory(weatherValue)
-                writeValues(weatherValue, response.body()?.current?.condition?.icon ?: "")
+                        Settings.instance().dateFormat.format(Date()),
+                        response.body()?.location?.name ?: "",
+                        icon)
+                App.instance().dataControl.addWeather(weatherValue)
+                //Settings.instance().addHistory(weatherValue)
+                writeValues(weatherValue, icon)
             }
 
             override fun onFailure(call: Call<WValue>, t: Throwable) {
