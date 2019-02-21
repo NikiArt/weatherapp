@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 import ru.test.weatherapp.App
+import ru.test.weatherapp.Settings
 import ru.test.weatherapp.WeatherValue
 import java.util.*
 import kotlin.collections.ArrayList
@@ -63,7 +64,6 @@ class DatabaseControl(context: Context?, name: String?, factory: SQLiteDatabase.
 
     fun addWeather(weatherValue: WeatherValue) {
         val currentCityId = addCity(weatherValue.cityName)
-        try {
             val cursor = App.instance().database.query(WEATHER_TABLE_NAME, null, "$CITY = '$currentCityId'", null, null, null, "$DATE DESC")
             cursor.moveToFirst()
             if (cursor.isAfterLast ||
@@ -73,9 +73,6 @@ class DatabaseControl(context: Context?, name: String?, factory: SQLiteDatabase.
                     cursor.getDouble(5) != weatherValue.windSpeed) {
                 addNewWeather(weatherValue)
             }
-        } catch (e: NullPointerException) {
-            addNewWeather(weatherValue)
-        }
     }
 
     private fun addNewWeather(weatherValue: WeatherValue) {
@@ -92,9 +89,10 @@ class DatabaseControl(context: Context?, name: String?, factory: SQLiteDatabase.
         Log.d("DDLog", "Create weather in DB - ${weatherValue.temperature} in ${weatherValue.cityName}")
     }
 
-    fun getWeatherHystory(city: String): List<WeatherValue> {
+    fun getWeatherHystory(city: String) {
         val weatherHistory = ArrayList<WeatherValue>()
         val currentCityId = addCity(city)
+        Settings.instance().weatherHistory.clear()
         val cursor = App.instance().database.query(WEATHER_TABLE_NAME, null, "$CITY = '$currentCityId'", null, null, null, "$DATE DESC")
         cursor.moveToFirst()
         if (!cursor.isAfterLast) {
@@ -106,25 +104,20 @@ class DatabaseControl(context: Context?, name: String?, factory: SQLiteDatabase.
                         cursor.getString(7),
                         city,
                         cursor.getString(6))
-                weatherHistory.add(weatherValue)
+                Settings.instance().weatherHistory.add(weatherValue)
             } while (cursor.moveToNext())
         }
-        return weatherHistory
     }
 
 
     fun findCityId(city: String): String? {
-        // try {
-        val cursor = App.instance().database.query(CITIES_TABLE_NAME, null, "$CITY = '$city'", null, null, null, null)
+        val cursor = App.instance().database.query(CITIES_TABLE_NAME, null, "UPPER($CITY) = '${city.toUpperCase()}'", null, null, null, null)
         cursor.moveToFirst()
         return if (!cursor.isAfterLast) {
             cursor.getString(0)
         } else {
             null
         }
-        /* } catch (e: NullPointerException) {
-             return null
-         }*/
     }
 
 
