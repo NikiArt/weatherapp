@@ -6,6 +6,6 @@
 
     <color name="colorPrimaryChanged">#ffd54f</color>
     <color name="colorPrimaryDarkChanged">#ffab40</color>
-    <color name="colorAccentChanged">#1e88e5</color>
+    <color name="colorAccentChanged">#FFFFFF</color>
     <color name="colorBackground">#2e7d32</color>
 </resources>
