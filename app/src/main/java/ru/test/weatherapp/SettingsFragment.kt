@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Switch
 import android.widget.Toast
+import kotlinx.android.synthetic.main.fragment_settings.view.*
+import ru.test.weatherapp.geolocation.GeoLocation
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -17,6 +19,7 @@ class SettingsFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private var listener: OnFragmentInteractionListener? = null
+    private val geoLocation = GeoLocation()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +33,7 @@ class SettingsFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         val inflatedView = inflater.inflate(R.layout.fragment_settings, container, false)
         val buttonFromFragment = inflatedView.findViewById<View>(R.id.fragment_settings_button_get_weather)
+        val buttonLocation = inflatedView.fragment_settings_button_current_location
         val cityName = inflatedView.findViewById<EditText>(R.id.fragment_settings_text_city)
         val airPressure = inflatedView.findViewById<Switch>(R.id.fragment_settings_switch_air_pressure)
         val wetness = inflatedView.findViewById<Switch>(R.id.fragment_settings_switch_wetness)
@@ -51,6 +55,10 @@ class SettingsFragment : Fragment() {
                 Settings.instance().wetness = wetness.isChecked
                 Settings.instance().windSpeed = windSpeed.isChecked
             }
+        }
+
+        buttonLocation.setOnClickListener {
+            geoLocation.getLocation(activity ?: requireActivity())
         }
         return inflatedView
 
