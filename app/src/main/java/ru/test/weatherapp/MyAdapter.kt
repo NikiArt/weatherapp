@@ -31,7 +31,7 @@ class MyAdapter : RecyclerView.Adapter<ViewHolder>() {
         holder.windSpeed.text.append("Скорость ветра: ${Settings.instance().weatherHistory[position].windSpeed} м/с")
         holder.airPressure.text.append("Давление: ${Settings.instance().weatherHistory[position].airPressure} мм рт.с.")
         holder.cityName.text.append(Settings.instance().weatherHistory[position].cityName)
-        holder.date.text.append(sdf.format(Settings.instance().weatherHistory[position].currentDate))
+        holder.date.text.append(Settings.instance().weatherHistory[position].currentDate)
     }
 }
 

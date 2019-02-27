@@ -1,5 +1,6 @@
 package ru.test.weatherapp;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +12,7 @@ public class Settings {
     private Boolean airPressure = false;
     private static String API_KEY = "4fd10dd3f01a413cb3b94151191402";
     private static List<WeatherValue> weatherHistory;
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     public Settings() {
     }
@@ -25,6 +27,10 @@ public class Settings {
 
     public String getCity() {
         return city;
+    }
+
+    public SimpleDateFormat getDateFormat() {
+        return sdf;
     }
 
     public String getApiKey() {

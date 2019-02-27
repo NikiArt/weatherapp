@@ -31,6 +31,7 @@ class HistoryFragment : Fragment() {
         inflatedView.fragment_history_list.layoutManager = LinearLayoutManager(context)
         val myAdapter = MyAdapter()
         inflatedView.fragment_history_list.adapter = myAdapter
+        App.instance().dataControl.getWeatherHystory(Settings.instance().city)
 
         return inflatedView
     }

@@ -21,6 +21,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     val historyFragment = HistoryFragment()
     private var currentFragment: Int = 1
     private var previousFragment: Int = 1
+    /*lateinit var dataControl: DatabaseControl
+    lateinit var database: SQLiteDatabase*/
 
     override fun onFragmentInteraction(currentFragment: Int, nextFragment: Int) {
         changeFragment(currentFragment, nextFragment)
@@ -63,6 +65,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         var fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.add(R.id.content_main_frame, settingsFragment)
         fragmentTransaction.commit()
+
+        /*dataControl = DatabaseControl(App.instance(), "database.db", null, 1)
+        database = dataControl.writableDatabase*/
 
 
     }
@@ -113,6 +118,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onDestroy() {
+        App.instance().database.close()
+        App.instance().dataControl.close()
         super.onDestroy()
     }
 
