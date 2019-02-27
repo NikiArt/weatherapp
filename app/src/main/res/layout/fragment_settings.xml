@@ -63,4 +63,15 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="OnClick" />
 
+    <ImageButton
+        android:id="@+id/fragment_settings_button_current_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="56dp"
+        android:backgroundTint="@android:color/transparent"
+        android:src="@android:drawable/ic_menu_mylocation"
+        app:layout_constraintStart_toEndOf="@+id/fragment_settings_text_city"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </android.support.constraint.ConstraintLayout>
